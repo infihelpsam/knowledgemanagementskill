@@ -1,0 +1,8 @@
+FROM python:3.12-slim
+WORKDIR /app
+COPY pyproject.toml ./
+COPY knowledge ./knowledge
+COPY tests ./tests
+RUN pip install --no-cache-dir '.[test]' && useradd --create-home tester && chown -R tester:tester /app
+USER tester
+CMD ["python", "-m", "pytest", "-q"]
